@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/bin/.phpunit/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="tests/bootstrap.php"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="APP_ENV" value="test" force="true" />
+        <server name="SHELL_VERBOSITY" value="-1" />
+        <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
+        <server name="SYMFONY_PHPUNIT_VERSION" value="7.5" />
+    </php>
+
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests/unit</directory>
+        </testsuite>
+        <!-- functional tests without DB, email, etc... simulations -->
+        <testsuite name="integration">
+            <directory>tests/integration</directory>
+        </testsuite>
+        <!-- functional tests with DB, email, etc... simulations -->
+        <testsuite name="system">
+            <directory>tests/system</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+
+    <extension>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extension>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+
+    <loggin>
+        <log type="coverage-html" target="var/coverage" lowUpperBound="35" highLowerBound="70"></log>
+        <log type="coverage-clover" target="var/clover.xml" lowUpperBound="35" highLowerBound="70"></log>
+        <log type="junit" target="var/junit.xml" lowUpperBound="35" highLowerBound="70"></log>
+    </loggin>
+
+</phpunit>
