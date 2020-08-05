@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\RecruiterRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=RecruiterRepository::class)
+ * @ORM\Entity
  */
 class Recruiter extends User
 {
