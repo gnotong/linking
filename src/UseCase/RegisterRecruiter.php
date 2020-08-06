@@ -7,14 +7,17 @@ namespace App\UseCase;
 use App\Entity\Recruiter;
 use App\Gateway\RecruiterGateway ;
 use Assert\Assert;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegisterRecruiter
 {
     private RecruiterGateway $recruiterGateway;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
-    public function __construct(RecruiterGateway $recruiterGateway)
+    public function __construct(RecruiterGateway $recruiterGateway, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->recruiterGateway = $recruiterGateway;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function execute(Recruiter $recruiter): Recruiter
@@ -26,6 +29,8 @@ class RegisterRecruiter
             ->that($recruiter->getPlainPassword(), 'plainPassword')->notBlank()
             ->that($recruiter->getEmail(), 'email')->notBlank()->email()
         ->verifyNow();
+
+        $recruiter->setPassword($this->passwordEncoder->encodePassword($recruiter, $recruiter->getPlainPassword()));
 
         $this->recruiterGateway->register($recruiter);
 

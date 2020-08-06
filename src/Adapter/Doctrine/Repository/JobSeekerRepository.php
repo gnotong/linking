@@ -24,6 +24,7 @@ class JobSeekerRepository extends ServiceEntityRepository implements JobSeekerGa
 
     public function register(JobSeeker $jobSeeker): void
     {
-        // TODO: Implement register() method.
+        $this->_em->persist($jobSeeker);
+        $this->_em->flush();
     }
 }

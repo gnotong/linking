@@ -24,6 +24,7 @@ class RecruiterRepository extends ServiceEntityRepository implements RecruiterGa
 
     public function register(Recruiter $recruiter): void
     {
-        // TODO: Implement register() method.
+       $this->_em->persist($recruiter);
+       $this->_em->flush();
     }
 }

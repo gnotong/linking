@@ -11,5 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class JobSeeker extends User
 {
+    public function getRoles(): array
+    {
+        $roles = $this->getRoles();
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_JOB_SEEKER';
 
+        return array_unique($roles);
+    }
 }

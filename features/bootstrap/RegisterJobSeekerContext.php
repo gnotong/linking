@@ -8,6 +8,7 @@ use App\Adapter\InMemory\Repository\JobSeekerRepository;
 use App\Entity\JobSeeker;
 use App\UseCase\RegisterJobSeeker;
 use Assert\Assertion;
+use Assert\AssertionFailedException;
 use Behat\Behat\Context\Context;
 
 class RegisterJobSeekerContext implements Context
@@ -37,6 +38,7 @@ class RegisterJobSeekerContext implements Context
 
     /**
      * @Then /^I can log in with my new account$/
+     * @throws AssertionFailedException
      */
     public function iCanLogInWithMyNewAccount()
     {
