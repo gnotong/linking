@@ -3,30 +3,31 @@
 namespace App\Features;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 
 class RejectApplicationContext implements Context
 {
     /**
-     * @Given /^I want to reject an application$/
+     * @Given /^i want to reject an application$/
      */
     public function iWantToRejectAnApplication()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        throw new PendingException();
     }
 
     /**
-     * @When /^I send a new message to explain the rejection$/
+     * @When /^i send a rejection message to the job seeker$/
      */
-    public function iSendANewMessageToExplainTheRejection()
+    public function iSendARejectionMessageToTheJobSeeker()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        throw new PendingException();
     }
 
     /**
-     * @Then /^The job seeker is aware of our decision and we cannot meet the job seeker$/
+     * @Then /^the job seeker is aware of our decision and we cannot meet the job seeker$/
      */
     public function theJobSeekerIsAwareOfOurDecisionAndWeCannotMeetTheJobSeeker()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        throw new PendingException();
     }
 }
