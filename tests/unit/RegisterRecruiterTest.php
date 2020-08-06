@@ -9,12 +9,16 @@ use App\Entity\Recruiter;
 use App\UseCase\RegisterRecruiter;
 use Assert\LazyAssertionException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegisterRecruiterTest extends TestCase
 {
     public function testSuccessFulRegistration()
     {
-        $useCase = new RegisterRecruiter(new RecruiterRepository());
+        $userPasswordEncoder = $this->getMockBuilder(UserPasswordEncoderInterface::class)->getMock();
+        $userPasswordEncoder->method('encodePassword')->willReturn('hashed_password');
+
+        $useCase = new RegisterRecruiter(new RecruiterRepository(), $userPasswordEncoder);
 
         $recruiter = (new Recruiter())
             ->setCompanyName('Company')
@@ -31,7 +35,10 @@ class RegisterRecruiterTest extends TestCase
      */
     public function testBadRecruiter(Recruiter $recruiter)
     {
-        $useCase = new RegisterRecruiter(new RecruiterRepository());
+        $userPasswordEncoder = $this->getMockBuilder(UserPasswordEncoderInterface::class)->getMock();
+        $userPasswordEncoder->method('encodePassword')->willReturn('hashed_password');
+
+        $useCase = new RegisterRecruiter(new RecruiterRepository(), $userPasswordEncoder);
 
         $this->expectException(LazyAssertionException::class);
 
