@@ -10,6 +10,9 @@ use App\UseCase\RegisterJobSeeker;
 use Assert\Assertion;
 use Assert\AssertionFailedException;
 use Behat\Behat\Context\Context;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
 
 class RegisterJobSeekerContext implements Context
 {
@@ -21,7 +24,25 @@ class RegisterJobSeekerContext implements Context
      */
     public function iNeedToRegisterToLookForANewJob()
     {
-        $this->registerJobSeeker = new RegisterJobSeeker(new JobSeekerRepository());
+        $userPasswordEncoder = new class() implements UserPasswordEncoderInterface {
+
+            public function encodePassword(UserInterface $user, string $plainPassword)
+            {
+                return 'hashed_password';
+            }
+
+            public function isPasswordValid(UserInterface $user, string $raw)
+            {
+                // TODO: Implement isPasswordValid() method.
+            }
+
+            public function needsRehash(UserInterface $user): bool
+            {
+                return true;
+            }
+        };
+
+        $this->registerJobSeeker = new RegisterJobSeeker(new JobSeekerRepository(), $userPasswordEncoder);
     }
 
     /**

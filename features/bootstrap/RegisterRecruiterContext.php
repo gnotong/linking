@@ -9,6 +9,8 @@ use App\Entity\Recruiter;
 use App\UseCase\RegisterRecruiter;
 use Assert\Assertion;
 use Behat\Behat\Context\Context;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class RegisterRecruiterContext implements Context
 {
@@ -21,7 +23,25 @@ class RegisterRecruiterContext implements Context
      */
     public function iNeedToRegisterToRecruitNewEmployees()
     {
-        $this->registerRecruiter = new RegisterRecruiter(new RecruiterRepository());
+        $userPasswordEncoder = new class() implements UserPasswordEncoderInterface {
+
+            public function encodePassword(UserInterface $user, string $plainPassword)
+            {
+                return 'hashed_password';
+            }
+
+            public function isPasswordValid(UserInterface $user, string $raw)
+            {
+                // TODO: Implement isPasswordValid() method.
+            }
+
+            public function needsRehash(UserInterface $user): bool
+            {
+                return true;
+            }
+        };
+
+        $this->registerRecruiter = new RegisterRecruiter(new RecruiterRepository(), $userPasswordEncoder);
     }
 
     /**
