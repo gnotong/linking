@@ -9,7 +9,6 @@ use App\Gateway\RecruiterGateway;
 
 class RecruiterRepository implements RecruiterGateway
 {
-
     public function register(Recruiter $recruiter): void
     {
         // TODO: Implement register() method.
