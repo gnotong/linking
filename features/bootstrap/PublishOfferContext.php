@@ -2,16 +2,23 @@
 
 namespace App\Features;
 
+use App\Adapter\InMemory\Repository\OfferRepository;
+use App\Entity\Offer;
+use App\UseCase\PublishOffer;
+use Assert\Assertion;
 use Behat\Behat\Context\Context;
 
 class PublishOfferContext implements Context
 {
+    private PublishOffer $publishOffer;
+    private Offer  $offer;
+
     /**
      * @Given /^I want to publish an offer$/
      */
     public function iWantToPublishAnOffer()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        $this->publishOffer = new PublishOffer(new OfferRepository());
     }
 
     /**
@@ -19,7 +26,18 @@ class PublishOfferContext implements Context
      */
     public function iWriteTheOffer()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        $this->offer = (new Offer())
+            ->setCompanyDescription('offer description')
+            ->setJobDescription('job description')
+            ->setLocation('location')
+            ->setMaxSalary(35000)
+            ->setMinSalary(29000)
+            ->setMissions('offer missions')
+            ->setName('Offer name')
+            ->setProfile('offer profile')
+            ->setRemote(true)
+            ->setTasks('offer tasks')
+            ->setSoftSkills('offer soft skills');
     }
 
     /**
@@ -27,6 +45,6 @@ class PublishOfferContext implements Context
      */
     public function theOfferIsPublishedAndJobSeekerCanSendTheirApplicationForNewJob()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        Assertion::eq($this->offer, $this->publishOffer->execute($this->offer));
     }
 }

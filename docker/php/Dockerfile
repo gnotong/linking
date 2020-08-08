@@ -18,3 +18,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . /app/linking
 
 WORKDIR /app/linking
+
+RUN chmod +x bin/console
