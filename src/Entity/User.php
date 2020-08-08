@@ -20,7 +20,7 @@ abstract class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -35,18 +35,18 @@ abstract class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private ?string $email = null;
+    protected ?string $email = null;
 
     /**
      * @ORM\Column(type="json")
      */
-    private array $roles = [];
+    protected array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private string $password;
+    protected string $password;
 
     /**
      * @ORM\Column(type="string", length=255)

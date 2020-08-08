@@ -37,8 +37,11 @@ bash:  ## To access php container in command line
 #fixtures: migration ## Makes data available for the application
 #	$(EXEC_PHP) ./bin/console hautelook:fixtures:load --no-interaction --no-bundles
 
-migration: db-drop db-create ## Updates database schema
-	$(EXEC_PHP) ./bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+migrate: db-drop db-create ## Updates database schema
+	$(EXEC_PHP) bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
+migration: ## Generates migration files
+	$(EXEC_PHP) bin/console make:migration --no-interaction
 
 db-drop: ## Drops mysql database
 	$(EXEC_PHP) ./bin/console doctrine:database:drop --if-exists --force
@@ -52,7 +55,7 @@ clean: prune ## Stops and clean all containers and volumes; removes vendor and v
 all-tests: functional-test unit-test ## Executes functional and unit tests
 
 functional-test: ## Executes functional tests
-	docker-compose exec -T php /app/linking/vendor/bin/simple-phpunit --configuration /app/linking/phpunit.xml.dist --testsuite "Functional testing"
+	docker-compose exec -T php vendor/bin/simple-phpunit --configuration phpunit.xml.dist --testsuite "integration"
 
 unit-test: ## Executes unit tests
-	docker-compose exec -T php /app/linking/vendor/bin/simple-phpunit --configuration /app/linking/phpunit.xml.dist --testsuite "Unit testing"
+	docker-compose exec -T php vendor/bin/simple-phpunit --configuration phpunit.xml.dist --testsuite "unit"
